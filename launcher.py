@@ -57,6 +57,16 @@ class Launcher:
     self.ip = s.getsockname()[0]
     s.close()
     # TODO: def get_clients
+    sub_font = pygame.font.Font('freesansbold.ttf', 24)
+    f = open('/home/requin/rqn/version')
+    minor_v = f.read().strip()
+    f.close()
+    v_str = 'v0.1.'+minor_v
+    self.version_text = sub_font.render(v_str, True, (40, 40, 40))
+    ip_str = ' . '.join(self.ip.split('.'))
+    self.ip_text = sub_font.render(ip_str, True, (40, 40, 40), (180, 180, 200))
+
+
 
 
   def quit(self):
@@ -111,13 +121,12 @@ class Launcher:
   def draw(self):
     self.screen.fill((130, 140, 220))
 
-    # ip
-    ip_str = " . ".join(self.ip.split('.'))
-    ip_font = pygame.font.Font('freesansbold.ttf', 24)
-    ip_text = ip_font.render(ip_str, True, (40, 40, 40), (180, 180, 200))
-    self.screen.blit(ip_text, (5, 5))
-    
     w, h = self.screen.get_size()
+
+    # ip and version
+    self.screen.blit(self.ip_text, (5, 5))
+    self.screen.blit(self.version_text, (5, h - 30))
+    
     y = 5
     i = 0
     for entry in self.launch_entries:
