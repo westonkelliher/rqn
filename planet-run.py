@@ -282,7 +282,7 @@ def draw_win(screen):
   img = font.render('Nice!', True, (20, 20, 20))
   tx = x+(w-img.get_width())/2
   screen.blit(img, (tx, y+15))
-  img = font.render('Press Space for Next Level', True, (20, 20, 20))
+  img = font.render('Press the Button for Next Level', True, (20, 20, 20))
   tx = x+(w-img.get_width())/2
   screen.blit(img, (tx, y+50))
 
@@ -300,7 +300,7 @@ def draw_lose(screen):
   img = font.render('You lost!', True, (20, 20, 20))
   tx = x+(w-img.get_width())/2
   screen.blit(img, (tx, y+15))
-  img = font.render('Press Space to Restart Level', True, (20, 20, 20))
+  img = font.render('Press the Button to Restart Level', True, (20, 20, 20))
   tx = x+(w-img.get_width())/2
   screen.blit(img, (tx, y+50))
   
@@ -403,7 +403,7 @@ def main():
 
   
   # level texts
-  level1_text = ['Use the arrow keys to control the blue planet',
+  level1_text = ['Use the Joystick to control the blue planet',
                  'Guide the green planet to the green zone']
   level2_text = ['Guide the red planet to the red zone',
                  'But don\'t let it touch you :O']
@@ -416,7 +416,7 @@ def main():
                  'Purple planets are like red planets: hurty friends!']
   level8_text = ['Everybody in!']
   level9_text = ['If it fits it ships',
-                 '(press \'R\' to restart)']
+                 '(press the button to restart)']
   level10_text = ['"To become an astronaut one only need run fast enough" \
 -Abe Lincoln']
   level11_text = ['Round \'em up']

@@ -10,7 +10,7 @@ Environment="DISPLAY=:0"
 Environment="XAUTHORITY=/home/requin/.Xauthority"
 StandardOutput=file:/home/requin/logs/lc-launcher.stdout
 StandardError=file:/home/requin/logs/lc-launcher.stderr
-ExecStart=/usr/bin/python3 /home/requin/rqn/launcher.py
+ExecStart=/home/requin/rqn/launcher.sh
 
 [Install]
 WantedBy=graphical.target

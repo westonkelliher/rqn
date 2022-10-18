@@ -6,6 +6,8 @@ set -e
 chmod +x /home/requin/rqn/control_pad_target.so
 chmod +x /home/requin/rqn/cp_server
 chmod +x /home/requin/rqn/codewords
+chmod +x /home/requin/rqn/launcher.sh
+chmod +x /home/requin/rqn/ota.sh
 
 # set the desktop background
 gsettings set org.gnome.desktop.background picture-uri file:////home/requin/rqn/requin.png
@@ -34,15 +36,12 @@ cp /home/requin/rqn/lightdm.conf /etc/lightdm/
 # create directory to put service logs in to get info about the two services below
 if ! [ -d "/home/requin/logs" ]; then
     mkdir /home/requin/logs
-    chown requin /home/requin/logs
-    chown requin /home/requin/logs/*
     chgrp requin /home/requin/logs
     chgrp requin /home/requin/logs/*
 fi
 
 if ! [ -d "/home/requin/rqnio" ]; then
     mkdir /home/requin/rqnio
-    chown requin /home/requin/rqnio
     chgrp requin /home/requin/rqnio
 fi
 
