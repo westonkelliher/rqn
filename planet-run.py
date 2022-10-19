@@ -305,7 +305,22 @@ def draw_lose(screen):
   screen.blit(img, (tx, y+50))
   
 
-    
+
+def get_clients_assign_specs():
+  clients = []
+  for cli_str in cpt.get_client_info().split(";")[:-1]:
+    clients.append(cli_str)
+  print(clients);
+  for cli_str in clients:
+    clid = int(cli_str.split(':')[0])
+    if clid  == 0:
+      cpt.assign_spec(cli_str, "]1001,20,30,100,100;999,50,300,50,50;]1002,550,200,120;") # TODO spec_from_dims
+    else:
+      cpt.assign_spec(cli_str, "]1001,20,30,100,100;999,50,300,50,50;]")
+    print("Assigned spec for player " + str(clid))
+  return clients
+  
+  
 
 def xywh(x, y, w, h):
   x1 = x - w/2
@@ -480,45 +495,39 @@ def main():
   
   #leftovers = cpt.get_client_info() # clear out anythin in dims
   #print("leftover dims: {}", leftovers)
-  clients = []
+  clients = get_clients_assign_specs()
       
   while running:
     clock.tick(60)
 
     if cpt.clients_changed():
-      clients = []
-      for cli_str in cpt.get_client_info().split(";")[:-1]:
-        clients.append(cli_str)
-      print(clients);
-      for cli_str in clients:
-        clid = int(cli_str.split(':')[0])
-        if clid  == 0:
-          cpt.assign_spec(cli_str, "]1001,20,30,100,100;]1002,550,200,120;") # TODO spec_from_dims
-        else:
-          cpt.assign_spec(cli_str, "]1001,20,30,100,100;]")
-        print("Assigned spec for player " + str(clid))
+      clients = get_clients_assign_specs()
     
+    endit = False
 
-    
     # control pad events
     for cli_str in clients:
       for eventstr in cpt.get_events(cli_str).split(']')[:-1]:
-        if 'Press' in eventstr:
+        if 'Press' in eventstr and '1001' in eventstr:
           if level.state == 'won':
             level_index += 1
             level = all_levels[level_index]
           else:
             level.reset()
+        elif 'Press' in eventstr and '999' in eventstr:
+          print('ending it or PR')
+          endit = True
+          break
         level.handle_event(eventstr)
 
     # keyboard events
-    endit = False
     for event in pygame.event.get():
       if event.type == pygame.KEYDOWN and event.key == ord('w'):
         level.win()
       if event.type == pygame.QUIT:
         endit = True
         break;
+      
     if endit:
       break
   

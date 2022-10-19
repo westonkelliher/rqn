@@ -35,6 +35,9 @@ class LaunchEntry:
     else:
       sp.call(self.executable_strs)
 
+    
+    
+
 
     
 class Launcher:
@@ -115,6 +118,11 @@ class Launcher:
           self.selection_index = 0
       elif elem_id == 3:
         self.launch_entries[self.selection_index].launch()
+        # re-set controllers to launcher menu controls
+        print("app done")
+        for c in self.clients:
+          cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]")
+
       
 
     
