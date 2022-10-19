@@ -20,12 +20,15 @@ cp /home/requin/rqn/debian11_sources.list /etc/apt/sources.list
 apt update
 
 # install necessary packages for launcher.py
-apt install python3-pip
+apt install -y python3-pip
 pip3 install pygame
 
 # install lightdm and set it to autologin
-apt install lightdm
+apt install -y lightdm
 apt remove gdm3
+
+# install tools
+apt install -y curl git
 
 if ! [ $(getent group autologin) ]; then
     /sbin/groupadd -r autologin
@@ -37,7 +40,6 @@ cp /home/requin/rqn/lightdm.conf /etc/lightdm/
 if ! [ -d "/home/requin/logs" ]; then
     mkdir /home/requin/logs
     chgrp requin /home/requin/logs
-    chgrp requin /home/requin/logs/*
 fi
 
 if ! [ -d "/home/requin/rqnio" ]; then

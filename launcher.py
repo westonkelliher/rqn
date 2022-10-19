@@ -45,7 +45,12 @@ class Launcher:
     pygame.init()
     all_entries = [LaunchEntry("Quit", None, self.quit)]
     all_entries += launch_entries
-    self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+    while True:
+      try:
+        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+        break
+      except:
+        pass
     self.launch_entries = all_entries
     self.selection_index = 0
     self.running = False
@@ -56,7 +61,12 @@ class Launcher:
     for c in self.clients:
       cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]")
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
+    while True:
+      try:
+        s.connect(("8.8.8.8", 80))
+        break
+      except:
+        time.sleep(0.5)
     self.ip = s.getsockname()[0]
     s.close()
     # TODO: def get_clients
@@ -119,7 +129,6 @@ class Launcher:
       elif elem_id == 3:
         self.launch_entries[self.selection_index].launch()
         # re-set controllers to launcher menu controls
-        print("app done")
         for c in self.clients:
           cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]")
 
