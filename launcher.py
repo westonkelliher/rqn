@@ -59,7 +59,7 @@ class Launcher:
     self.font = pygame.font.Font('freesansbold.ttf', font_size)
     self.clients = [ Client(q) for q in cpt.get_client_info().split(';')[:-1] ]
     for c in self.clients:
-      cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]")
+      cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]]")
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     while True:
       try:
@@ -99,7 +99,7 @@ class Launcher:
       if cpt.clients_changed():
         self.clients = [ Client(q) for q in cpt.get_client_info().split(';')[:-1] ]
         for c in self.clients:
-          cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]")
+          cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]]")
 
       # control pad events
       for c in self.clients:
@@ -130,7 +130,7 @@ class Launcher:
         self.launch_entries[self.selection_index].launch()
         # re-set controllers to launcher menu controls
         for c in self.clients:
-          cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]")
+          cpt.assign_spec(c.to_string(), "]1,100,50,200,140;2,100,200,200,150;3,500,100,200,200;]]")
 
       
 

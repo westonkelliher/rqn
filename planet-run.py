@@ -314,7 +314,7 @@ def get_clients_assign_specs():
   for cli_str in clients:
     clid = int(cli_str.split(':')[0])
     if clid  == 0:
-      cpt.assign_spec(cli_str, "]1001,20,30,100,100;999,50,300,50,50;]1002,550,200,120;") # TODO spec_from_dims
+      cpt.assign_spec(cli_str, "]1001,20,30,100,100;999,50,300,50,50;]]1002,400,10,380,380,120;") # TODO spec_from_dims
     else:
       cpt.assign_spec(cli_str, "]1001,20,30,100,100;999,50,300,50,50;]")
     print("Assigned spec for player " + str(clid))
@@ -515,7 +515,6 @@ def main():
           else:
             level.reset()
         elif 'Press' in eventstr and '999' in eventstr:
-          print('ending it or PR')
           endit = True
           break
         level.handle_event(eventstr)
@@ -529,7 +528,7 @@ def main():
         break;
       
     if endit:
-      break
+      raise SystemExit
   
 
     # do things
