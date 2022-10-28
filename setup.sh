@@ -34,9 +34,8 @@ apt remove gdm3
 # install tools
 apt install -y curl git
 
-# set github as known host and file permission for pulling
+# set github as known host
 ssh-keyscan github.com >> $base/.ssh/known_hosts
-chown requin $dest/.git/FETCH_HEAD
 
 if ! [ $(getent group autologin) ]; then
     /sbin/groupadd -r autologin
