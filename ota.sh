@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 
 base="/home/requin"
 

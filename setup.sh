@@ -6,6 +6,7 @@ set -e
 chmod +x /home/requin/rqn/control_pad_target.so
 chmod +x /home/requin/rqn/cp_server
 chmod +x /home/requin/rqn/codewords
+chmod +x /home/requin/rqn/configure.sh
 chmod +x /home/requin/rqn/launcher.sh
 chmod +x /home/requin/rqn/ota.sh
 
@@ -45,15 +46,16 @@ fi
 if ! [ -d "/home/requin/rqnio" ]; then
     mkdir /home/requin/rqnio
     chgrp requin /home/requin/rqnio
+    chown requin /home/requin/rqnio
 fi
 
 # have the requin app launcher run on startup
-cp /home/requin/rqn/lc-launcher.service /usr/lib/systemd/system/
-systemctl enable lc-launcher
+cp /home/requin/rqn/launcher.service /usr/lib/systemd/system/
+systemctl enable launcher
 
 # have the control server for the touch mouse run on startup
-cp /home/requin/rqn/touch-mouse.service /usr/lib/systemd/system/
-systemctl enable touch-mouse
+cp /home/requin/rqn/cp_server.service /usr/lib/systemd/system/
+systemctl enable cp_server
 
 # done with setup
 echo "Done."

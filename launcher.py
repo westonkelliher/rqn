@@ -5,6 +5,7 @@ import socket
 
 import control_pad_target as cpt
 
+GUI_SCALE = 2
 
 class Client:
   def __init__(self, s):
@@ -55,7 +56,7 @@ class Launcher:
     self.selection_index = 0
     self.running = False
     w, h = self.screen.get_size()
-    font_size = int(h/27)
+    font_size = int(h*GUI_SCALE/27)
     self.font = pygame.font.Font('freesansbold.ttf', font_size)
     self.clients = [ Client(q) for q in cpt.get_client_info().split(';')[:-1] ]
     for c in self.clients:
@@ -70,7 +71,7 @@ class Launcher:
     self.ip = s.getsockname()[0]
     s.close()
     # TODO: def get_clients
-    sub_font = pygame.font.Font('freesansbold.ttf', 24)
+    sub_font = pygame.font.Font('freesansbold.ttf', int(24*GUI_SCALE))
     f = open('/home/requin/rqn/version')
     minor_v = f.read().strip()
     f.close()
@@ -142,7 +143,7 @@ class Launcher:
 
     # ip and version
     self.screen.blit(self.ip_text, (5, 5))
-    self.screen.blit(self.version_text, (5, h - 30))
+    self.screen.blit(self.version_text, (5, h - 24*GUI_SCALE - 5))
     
     y = 5
     i = 0
