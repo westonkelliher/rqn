@@ -6,7 +6,12 @@ base="/home/requin"
 cd $base/rqn
 
 v_old=$(cat version)
-v_new=$(curl https://github.com/westonkelliher/rqn-scripts/blob/main/version)
+v_new=$(curl -s https://github.com/westonkelliher/rqn-scripts/blob/main/version)
+
+if [ -z "$v_new" ]; then
+    echo "CURL FAILURE"
+fi
+
 
 if [[ "$v_old" == "$v_new" ]]; then
     echo "no rqn update"

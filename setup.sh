@@ -14,7 +14,7 @@ chmod +x $dest/launcher.sh
 chmod +x $dest/ota.sh
 
 # set the desktop background
-gsettings set org.gnome.desktop.background picture-uri file:///$dest/requin.png
+#gsettings set org.gnome.desktop.background picture-uri file:///$dest/requin.png
 
 # save local ip address into a file
 ip addr | grep 192.168 | sed 's/^[^0-9]*\([0-9\.]*\).*/\1/' > $dest/localip
@@ -27,23 +27,18 @@ apt update
 apt install -y python3-pip
 pip3 install pygame
 
-# install lightdm and set it to autologin
-apt install -y lightdm
+# get rid of the window manager
 apt remove gdm3
+apt install -y lightdm
+systemctl disable lightdm.service
 
 # install tools
 apt install -y curl git
 
 # set github as known host
-ssh-keyscan github.com >> $base/.ssh/known_hosts
+ssh-keyscan github.com > $base/.ssh/known_hosts
 
-if ! [ $(getent group autologin) ]; then
-    /sbin/groupadd -r autologin
-    gpasswd -a requin autologin
-fi
-cp $dest/lightdm.conf /etc/lightdm/
-
-# create directory to put service logs in to get info about the two services below
+# create directory to put service logs in
 if ! [ -d "$base/logs" ]; then
     mkdir $base/logs
     chgrp requin $base/logs
@@ -55,17 +50,19 @@ if ! [ -d "$base/rqnio" ]; then
     chown requin $base/rqnio
 fi
 
-# have the requin app launcher run on startup
-cp $dest/launcher.service /usr/lib/systemd/system/
-systemctl enable launcher
-
-# have the control server for the touch mouse run on startup
-cp $dest/cp_server.service /usr/lib/systemd/system/
-systemctl enable cp_server
+# have rqn software run on startup
+if ! [ -d "/etc/systemd/system/getty@tty1.service.d" ]; then
+    mkdir /etc/systemd/system/getty@tty1.service.d
+fi
+cp $dest/override.conf /etc/systemd/system/
+systemctl enable getty@tty1.service
+cp $dest/.xinitrc $base/
+cp $dest/.bashrc $base/
 
 # done with setup
 echo "Done."
 sleep 3
 
-#reboot the system
+# reboot the system
 /sbin/reboot
+
