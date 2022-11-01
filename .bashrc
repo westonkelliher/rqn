@@ -1,4 +1,5 @@
-/home/requin/rqn/rqn-start.sh
+# initialize graphics and start the launcher
+startx
 
 
 export PATH="$PATH:~/bin"

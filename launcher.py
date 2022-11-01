@@ -1,3 +1,4 @@
+import os
 import pygame
 import math, time
 import subprocess as sp
@@ -139,7 +140,13 @@ class Launcher:
 
     
   def draw(self):
-    self.screen.fill((130, 140, 220))
+    bg_color = (130, 140, 220)
+    hl_color = (170, 180, 240)
+    if os.getenv('RED') == 'true':
+      bg_color = (130, 100, 20)
+      hl_color = (170, 140, 40)
+
+    self.screen.fill(bg_color)
 
     w, h = self.screen.get_size()
 
@@ -150,7 +157,7 @@ class Launcher:
     y = 5
     i = 0
     for entry in self.launch_entries:
-      bg_color = (170, 180, 240) if i == self.selection_index else None
+      bg_color = hl_color if i == self.selection_index else None
       text = self.font.render(entry.name, True, (0, 0, 0), bg_color)
       rect = text.get_rect()
       x = (w - rect.width)/2
