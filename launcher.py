@@ -5,6 +5,8 @@ import socket
 
 import control_pad_target as cpt
 
+VERSION_CUTOFF = 13
+
 GUI_SCALE = 2
 
 class Client:
@@ -75,7 +77,7 @@ class Launcher:
     f = open('/home/requin/rqn/version')
     minor_v = f.read().strip()
     f.close()
-    v_str = 'v0.1.'+minor_v
+    v_str = 'v0.2.' + str(int(minor_v) - VERSION_CUTOFF)
     self.version_text = sub_font.render(v_str, True, (40, 40, 40))
     ip_str = ' . '.join(self.ip.split('.'))
     self.ip_text = sub_font.render(ip_str, True, (40, 40, 40), (180, 180, 200))

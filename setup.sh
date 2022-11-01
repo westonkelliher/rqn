@@ -28,7 +28,7 @@ apt install -y python3-pip
 pip3 install pygame
 
 # get rid of the window manager
-apt remove gdm3
+apt remove -y gdm3
 apt install -y lightdm
 systemctl disable lightdm.service
 
@@ -42,6 +42,7 @@ ssh-keyscan github.com > $base/.ssh/known_hosts
 if ! [ -d "$base/logs" ]; then
     mkdir $base/logs
     chgrp requin $base/logs
+    chown requin $base/logs
 fi
 
 if ! [ -d "$base/rqnio" ]; then
@@ -51,10 +52,11 @@ if ! [ -d "$base/rqnio" ]; then
 fi
 
 # have rqn software run on startup
+apt install -y mingetty
 if ! [ -d "/etc/systemd/system/getty@tty1.service.d" ]; then
     mkdir /etc/systemd/system/getty@tty1.service.d
 fi
-cp $dest/override.conf /etc/systemd/system/
+cp $dest/override.conf /etc/systemd/system/getty@tty1.service.d/
 systemctl enable getty@tty1.service
 cp $dest/.xinitrc $base/
 cp $dest/.bashrc $base/
