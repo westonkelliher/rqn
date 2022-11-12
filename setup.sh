@@ -25,8 +25,6 @@ apt update
 
 #install node and web server packages
 apt install -y nodejs
-cd $dest/webcp
-sudo -u requin npm install 
 
 # install necessary packages for launcher.py
 apt install -y python3-pip

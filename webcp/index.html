@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RecBox Control Pad</title>
+    <style>
+      body {
+	  margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script src="./socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      var q = false;
+      q = "eleven";
+      var spec = false;
+
+      if (innerWidth < 2*innerHeight) {
+	  canvas.width = innerWidth;
+	  canvas.height = canvas.width*.5;
+      } else {
+	  canvas.height = innerHeight;
+	  canvas.width = canvas.height*2;
+      }
+      console.log(canvas);
+
+      ctx.beginPath();
+      ctx.fillStyle = 'rgb(245,245,245)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      socket.emit('msg', JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
+
+      function num_to_color(num) {
+	  const r = num % 256;
+	  num = num/256;
+	  const g = num % 256;
+	  num = num/256;
+	  const b = num % 256;
+	  num = num/256;
+	  const a = num % 256;
+	  return "rgba(" + [r,g,b,a].join(',') + ")";
+      }
+
+      function send_datum(id, datum) {
+	  var ControlPacket = {
+	      element_id: id,
+	      datum: datum,
+	  }
+	  socket.emit('msg', JSON.stringify({ControlPacket}));
+      }
+
+
+      function clear_html_elements() {
+	  var children = document.body.children;
+	  for (var i=0; i < children.length; i++) {
+	      var child = children[i];
+	      if (child.tagName == 'BUTTON') {
+		  document.body.removeChild(child);
+		  i--;
+	      }
+	  }
+      }
+      
+      function update_spec(spec) {
+	  console.log(spec);
+
+	  // clear canvas graphics
+	  ctx.beginPath();
+	  ctx.fillStyle = 'rgb(250,250,255)';
+	  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	  // remove old html elements
+	  clear_html_elements();
+	  
+	  // Draw panels
+	  spec.panels.forEach(function (p, i) {
+	      ctx.beginPath();
+	      ctx.fillStyle = num_to_color(p.color);
+	      ctx.fillRect(p.x, p.y, p.w, p.h);
+	  });
+	  
+	  spec.buttons.forEach(function (b, i) {
+	      var btn = document.createElement('button');
+	      btn.style.type = 'button';
+	      btn.style.position = 'fixed';
+	      btn.style.left = b.x + 'px';
+	      btn.style.top = b.y + 'px';
+	      btn.style.width = b.w + 'px';
+	      btn.style.height = b.h + 'px';
+	      btn.addEventListener('click', function() {
+		  send_datum(b.id, "Press");
+	      });
+	      /*btn.addEventListener('mousedown', function() {
+		  send_datum(b.id, "Press");
+	      });
+	      btn.addEventListener('mouseup', function() {
+		  send_datum(b.id, "Release");
+	      });*/
+	      //btn.data = "dummy_data";
+	      //btn.innerHtml = "inner HTML";
+	      document.body.appendChild(btn);
+	  });
+      }
+      
+
+      // Heartbeats
+      setInterval(function() {
+	  socket.emit('msg', "\"Heartbeat\"");	  
+      }, 250);
+      
+      socket.on('msg', (msg) => {
+	  console.log('<' + msg + '>');
+	  if (msg == 'None') {
+	      return;
+	  }
+	  var resp = JSON.parse(msg);
+	  if (resp.Spec) {
+	      update_spec(resp.Spec);
+	  }
+      });
+
+
+      // prevent scrolling on mobile
+      document.body.addEventListener("touchstart", function (e) {
+	  if (e.target == canvas) {
+	      e.preventDefault();
+	  }
+      }, false);
+      document.body.addEventListener("touchend", function (e) {
+	  if (e.target == canvas) {
+	      e.preventDefault();
+	  }
+      }, false);
+      document.body.addEventListener("touchmove", function (e) {
+	  if (e.target == canvas) {
+	      e.preventDefault();
+	  }
+      }, false);
+      
+    </script>
+  </body>
+</html>
