@@ -34,6 +34,10 @@ done
 echo "$dest/cp_server"
 $dest/cp_server 1> $log/cp_server.out 2> $log/cp_server.out &
 
+# run web server
+echo "node $dest/webcp/index.js"
+node $dest/webcp/index.js 1> $log/node.out 2> $log/node.out &
+
 # run game launcher
 echo "python3 $dest/launcher.py"
 echo "$(date)" > $log/launcher.out

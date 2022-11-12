@@ -13,8 +13,8 @@ chmod +x $dest/configure.sh
 chmod +x $dest/launcher.sh
 chmod +x $dest/ota.sh
 
-# set the desktop background
-#gsettings set org.gnome.desktop.background picture-uri file:///$dest/requin.png
+# add requin to sudoers no password
+echo "requin ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # save local ip address into a file
 ip addr | grep 192.168 | sed 's/^[^0-9]*\([0-9\.]*\).*/\1/' > $dest/localip
@@ -22,6 +22,11 @@ ip addr | grep 192.168 | sed 's/^[^0-9]*\([0-9\.]*\).*/\1/' > $dest/localip
 # change our package sources to a source that actually has standard packages
 cp $dest/debian11_sources.list /etc/apt/sources.list
 apt update
+
+#install node and web server packages
+apt install -y nodejs
+cd $dest/webcp
+sudo -u requin npm install 
 
 # install necessary packages for launcher.py
 apt install -y python3-pip

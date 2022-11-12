@@ -13,15 +13,15 @@ if [ -z "$v_new" ]; then
 fi
 
 
+cd $base/rqn
+cp version last_version # last_version informs configure.sh if certain configurations need to occur
+
 if [[ "$v_old" == "$v_new" ]]; then
     echo "no rqn update"
     exit
 fi
 
 
-#rm -r $base/old_rqn
-#cp -r $base/rqn $base/old_rqn
-
-cd $base/rqn
+cp version old_version # old version tells us what version the user had the last time they got an OTA update
 
 git pull origin main
