@@ -12,6 +12,8 @@ chmod +x $dest/codewords
 chmod +x $dest/configure.sh
 chmod +x $dest/launcher.sh
 chmod +x $dest/ota.sh
+chmod +x $dest/rqn-start.sh
+chmod +x $dest/set-res.sh
 
 # add requin to sudoers no password
 echo "requin ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -25,6 +27,12 @@ apt update
 
 #install node and web server packages
 apt install -y nodejs
+apt install -y npm
+cd $dest/webcp
+npm install express
+npm install net
+npm install socketio
+npm install socket.io
 
 # install necessary packages for launcher.py
 apt install -y python3-pip
