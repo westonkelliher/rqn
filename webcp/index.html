@@ -98,13 +98,22 @@
 	  });
       }
 
+
+      function getTouchPosition(canvas, event) {
+	  const rect = canvas.getBoundingClientRect();
+	  const x = event.clientX - rect.left;
+	  const y = event.clientY - rect.top;
+	  return {x, y};
+      }
+      
       canvas.addEventListener('mousedown', function (e) {
 	  //e.preventDefault();
 
 	  // account for touches in buttons
+	  let pos = getTouchPosition(canvas, e);
 	  global_spec.buttons.forEach(function (b, i) {
-	      if (e.clientX >= b.x && e.clientX <= b.x + b.w &&
-		  e.clientY >= b.y && e.clientY <= b.y + b.h)
+	      if (pos.x >= b.x && pos.x <= b.x + b.w &&
+		  pos.y >= b.y && pos.y <= b.y + b.h)
 	      {
 		  b.depressed = true;
 		  send_datum(b.id, 'Press');
