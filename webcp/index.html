@@ -17,7 +17,7 @@
       const ctx = canvas.getContext('2d');
       var q = false;
       q = "eleven";
-      var spec = false;
+      var global_spec;
 
       if (innerWidth < 2*innerHeight) {
 	  canvas.width = innerWidth;
@@ -66,7 +66,8 @@
       }
       
       function update_spec(spec) {
-	  console.log(spec);
+	  global_spec = spec
+	  console.log(global_spec);
 
 	  // clear canvas graphics
 	  ctx.beginPath();
@@ -77,40 +78,57 @@
 	  clear_html_elements();
 	  
 	  // Draw panels
-	  spec.panels.forEach(function (p, i) {
+	  global_spec.panels.forEach(function (p, i) {
 	      ctx.beginPath();
 	      ctx.fillStyle = num_to_color(p.color);
 	      ctx.fillRect(p.x, p.y, p.w, p.h);
 	  });
 	  
-	  spec.buttons.forEach(function (b, i) {
-	      var btn = document.createElement('button');
-	      btn.style.type = 'button';
-	      btn.style.position = 'fixed';
-	      btn.style.left = b.x + 'px';
-	      btn.style.top = b.y + 'px';
-	      btn.style.width = b.w + 'px';
-	      btn.style.height = b.h + 'px';
-	      btn.addEventListener('click', function() {
-		  send_datum(b.id, "Press");
-	      });
-	      /*btn.addEventListener('mousedown', function() {
-		  send_datum(b.id, "Press");
-	      });
-	      btn.addEventListener('mouseup', function() {
-		  send_datum(b.id, "Release");
-	      });*/
-	      //btn.data = "dummy_data";
-	      //btn.innerHtml = "inner HTML";
-	      document.body.appendChild(btn);
+	  // Draw buttons
+	  global_spec.buttons.forEach(function (b, i) {
+	      ctx.beginPath();
+	      if (b.depressed) {
+		  ctx.fillStyle = 'rgb(190,190,190)';
+	      } else {
+		  ctx.fillStyle = 'rgb(230,230,230)';
+	      }
+	      ctx.rect(b.x, b.y, b.w, b.h, 10);
+	      ctx.stroke();
+	      ctx.fill();
 	  });
       }
-      
+
+      canvas.addEventListener('mousedown', function (e) {
+	  //e.preventDefault();
+
+	  // account for touches in buttons
+	  global_spec.buttons.forEach(function (b, i) {
+	      if (e.clientX >= b.x && e.clientX <= b.x + b.w &&
+		  e.clientY >= b.y && e.clientY <= b.y + b.h)
+	      {
+		  b.depressed = true;
+		  send_datum(b.id, 'Press');
+	      }
+	  });
+	  
+      });
+      /*canvas.addEventListener('mouseup', function (e) {
+	  // account for touches in buttons
+	  global_spec.buttons.forEach(function (b, i) {
+	      if (b.depressed) {
+		  b.depressed = false;
+		  send_datum(b.id, 'Release');
+	      }
+	  });
+	  
+      });*/
 
       // Heartbeats
       setInterval(function() {
 	  socket.emit('msg', "\"Heartbeat\"");	  
       }, 250);
+
+
       
       socket.on('msg', (msg) => {
 	  console.log('<' + msg + '>');
@@ -125,10 +143,18 @@
 
 
       // prevent scrolling on mobile
+/*
       document.body.addEventListener("touchstart", function (e) {
 	  if (e.target == canvas) {
 	      e.preventDefault();
 	  }
+	  global_spec.buttons.forEach(function (b, i) {
+	      if (e.clientX >= b.x && e.clientX <= b.x + b.w &&
+		  e.clientY >= b.y && e.clientY <= b.y + b.h)
+	      {
+		  send_datum(b.id, 'Press');
+	      }
+	  });
       }, false);
       document.body.addEventListener("touchend", function (e) {
 	  if (e.target == canvas) {
@@ -140,7 +166,7 @@
 	      e.preventDefault();
 	  }
       }, false);
-      
+*/      
     </script>
   </body>
 </html>
