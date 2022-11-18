@@ -64,7 +64,7 @@ class LaunchEntry:
 # change resolution to 1920x1080
 # TODO: screens that don't support 1920x1080 or don't make sense for it
 def set_screen_res():
-  sp.call(['/home/requin/rqn/set-res.sh'])
+  sp.call(['xrandr', '-s', '1920x1080'])
   #sp.call(['xrandr', '--output', '$(xrandr -q | grep " connected" | cut -f1 -d" " | head -1)', '--mode', '1920x1080'])
 
     
@@ -72,7 +72,7 @@ class Launcher:
   def __init__(self, launch_entries):
     set_screen_res()
     pygame.init()
-    all_entries = [LaunchEntry("Quit", None, self.quit)]
+    all_entries = [LaunchEntry("Quit", ['/sbin/shutdown', '0'])]
     all_entries += launch_entries
     while True:
       try:

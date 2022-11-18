@@ -5,6 +5,12 @@ set -e
 base="/home/requin"
 dest="$base/rqn"
 
+# get rid of useless directories
+rm -r $base/D*
+rm -r $base/P*
+rm -r $base/V*
+rm -r $base/T*
+
 # lost permissions
 chmod +x $dest/control_pad_target.so
 chmod +x $dest/cp_server
