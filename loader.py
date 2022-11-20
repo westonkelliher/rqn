@@ -9,7 +9,7 @@ GUI_SCALE = 2
   
 
 def draw(screen, failure=False):
-  screen.fill((130, 140, 220))
+  screen.fill((60, 160, 110))
   
   w, h = screen.get_size()
 
