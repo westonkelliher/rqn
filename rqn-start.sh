@@ -39,6 +39,6 @@ echo "node $dest/webcp/index.js"
 node $dest/webcp/index.js 1> $log/node.out 2> $log/node.out &
 
 # run game launcher
-echo "python3 $dest/launcher.py"
+echo "$dest/launcher"
 echo "$(date)" > $log/launcher.out
-python3 $dest/launcher.py 1>> $log/launcher.out 2>> $log/launcher.out
+$dest/launcher 1>> $log/launcher.out 2>> $log/launcher.out

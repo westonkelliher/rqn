@@ -19,20 +19,27 @@
       q = "eleven";
       var global_spec;
 
-      if (innerWidth < 2*innerHeight) {
+
+      // don't expand all the way if the webpage is a weird shape
+      if (innerWidth > innerHeight*3) {
+	  canvas.width = innerHeight*3;
+      } else {
 	  canvas.width = innerWidth;
-	  canvas.height = canvas.width*.5;
+      }
+      if (innerHeight > innerWidth*2/3) {
+	  canvas.height = innerWidth*2/3;
       } else {
 	  canvas.height = innerHeight;
-	  canvas.width = canvas.height*2;
       }
+      
       console.log(canvas);
-
+      
       ctx.beginPath();
       ctx.fillStyle = 'rgb(245,245,245)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       socket.emit('msg', JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
+      
 
       function num_to_color(num) {
 	  const r = num % 256;
@@ -105,10 +112,9 @@
 	  const y = event.clientY - rect.top;
 	  return {x, y};
       }
-      
-      canvas.addEventListener('mousedown', function (e) {
-	  //e.preventDefault();
 
+
+      function touched(e) {
 	  // account for touches in buttons
 	  let pos = getTouchPosition(canvas, e);
 	  global_spec.buttons.forEach(function (b, i) {
@@ -119,7 +125,10 @@
 		  send_datum(b.id, 'Press');
 	      }
 	  });
-	  
+      }
+      
+      canvas.addEventListener('mousedown', function (e) {
+	  touched(e);
       });
       /*canvas.addEventListener('mouseup', function (e) {
 	  // account for touches in buttons
@@ -137,7 +146,6 @@
 	  socket.emit('msg', "\"Heartbeat\"");	  
       }, 250);
 
-
       
       socket.on('msg', (msg) => {
 	  console.log('<' + msg + '>');
@@ -150,32 +158,6 @@
 	  }
       });
 
-
-      // prevent scrolling on mobile
-/*
-      document.body.addEventListener("touchstart", function (e) {
-	  if (e.target == canvas) {
-	      e.preventDefault();
-	  }
-	  global_spec.buttons.forEach(function (b, i) {
-	      if (e.clientX >= b.x && e.clientX <= b.x + b.w &&
-		  e.clientY >= b.y && e.clientY <= b.y + b.h)
-	      {
-		  send_datum(b.id, 'Press');
-	      }
-	  });
-      }, false);
-      document.body.addEventListener("touchend", function (e) {
-	  if (e.target == canvas) {
-	      e.preventDefault();
-	  }
-      }, false);
-      document.body.addEventListener("touchmove", function (e) {
-	  if (e.target == canvas) {
-	      e.preventDefault();
-	  }
-      }, false);
-*/      
     </script>
   </body>
 </html>
