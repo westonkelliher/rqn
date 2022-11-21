@@ -19,7 +19,6 @@ chmod +x $dest/configure.sh
 chmod +x $dest/launcher.sh
 chmod +x $dest/ota.sh
 chmod +x $dest/rqn-start.sh
-chmod +x $dest/set-res.sh
 
 # add requin to sudoers no password
 echo "requin ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
