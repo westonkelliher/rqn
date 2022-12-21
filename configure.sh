@@ -24,6 +24,7 @@ fi
 
 if [[ "$new" -eq "33" ]]; then
     cd $base
+    git clone https://github.com/RecBox-Games/rqn.git rqn_new
     mv rqn old_rqn
-    git clone https://github.com/RecBox-Games/rqn.git
+    mv rqn_new rqn
 fi
