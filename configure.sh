@@ -21,3 +21,9 @@ if [[ -z "$last" || "$last" -lt "16" ]]; then
     npm install socketio
     npm install socket.io
 fi
+
+if [[ "$new" -eq "33" ]]; then
+    cd $base
+    mv rqn old_rqn
+    git clone https://github.com/RecBox-Games/rqn.git
+fi
