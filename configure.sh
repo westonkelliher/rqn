@@ -2,16 +2,8 @@
 
 cd /home/requin/rqn
 
-
 last=$(cat last_version)
 new=$(cat version)
-
-if [[ "$new" -eq "33" ]]; then
-    cd $base
-    git clone https://github.com/RecBox-Games/rqn.git rqn_new
-    mv rqn old_rqn
-    mv rqn_new rqn
-fi
 
 if [[ "$new" -eq "$last" ]]; then
     exit
@@ -32,3 +24,6 @@ if [[ -z "$last" || "$last" -lt "16" ]]; then
     npm install socket.io
 fi
 
+if [[ -z "$last" || "$last" -lt "34" ]]; then
+    cp $base/xorg.conf /etc/X11/
+fi
