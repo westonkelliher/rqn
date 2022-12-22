@@ -1,28 +1,19 @@
 #!/bin/bash
 
 
+
 base="/home/requin"
 
-cd $base/rqn
+branch="main"
 
-v_old=$(cat version)
-v_new=$(curl -s https://raw.githubusercontent.com/westonkelliher/rqn/main/version)
-
-if [ -z "$v_new" ]; then
-    echo "CURL FAILURE"
+if [[ -f "$base/testing" ]]; then
+    branch="testing"
 fi
 
-
-cd $base/rqn
-cp version last_version # last_version informs configure.sh if certain configurations need to occur
-
-if [[ "$v_old" == "$v_new" ]]; then
-    echo "no rqn update"
-    exit
+if [[ -f "$base/development" ]]; then
+    branch="development"
 fi
 
-
-cp version old_version # old version tells us what version the user had the last time they got an OTA update
-
-git pull origin main
+git pull origin $branch
+git checkout $branch
 
