@@ -24,6 +24,6 @@ if [[ -z "$last" || "$last" -lt "16" ]]; then
     npm install socket.io
 fi
 
-if [[ -z "$last" || "$last" -lt "34" ]]; then
+if [[ ! -f /etc/X11/xorg.conf ]]; then 
     cp $base/xorg.conf /etc/X11/
 fi
