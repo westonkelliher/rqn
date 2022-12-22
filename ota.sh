@@ -4,6 +4,8 @@
 
 base="/home/requin"
 
+cd $base/rqn
+
 branch="main"
 
 if [[ -f "$base/testing" ]]; then
