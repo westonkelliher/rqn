@@ -8,7 +8,6 @@ dest="$base/rqn"
 # lost permissions
 chmod +x $dest/control_pad_target.so
 chmod +x $dest/cp_server
-chmod +x $dest/codewords
 chmod +x $dest/configure.sh
 chmod +x $dest/launcher.sh
 chmod +x $dest/ota.sh
