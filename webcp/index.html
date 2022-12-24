@@ -9,14 +9,15 @@
     </style>
   </head>
   <body>
-    <canvas></canvas>
+    <div id="d1">
+      <canvas id="thecanvas"></canvas>
+    </div>
     <script src="./socket.io/socket.io.js"></script>
     <script>
+      var div1 = document.getElementById('d1');
       var socket = io();
       const canvas = document.querySelector('canvas');
       const ctx = canvas.getContext('2d');
-      var q = false;
-      q = "eleven";
       var global_spec;
 
 
@@ -33,6 +34,14 @@
       }
       
       console.log(canvas);
+
+      // canvas shrinkage because mobile browser autoscaling
+      div1.style.position = "absolute";
+      div1.style.left = canvas.width/10 + 'px';
+      div1.style.top = canvas.height/10 + 'px';
+      canvas.width *= 4/5;
+      canvas.height *= 4/5;
+      
       
       ctx.beginPath();
       ctx.fillStyle = 'rgb(245,245,245)';
