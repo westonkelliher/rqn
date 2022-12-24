@@ -2,7 +2,6 @@
 
 cd /home/requin/rqn
 
-
 last=$(cat last_version)
 new=$(cat version)
 
@@ -25,3 +24,6 @@ if [[ -z "$last" || "$last" -lt "16" ]]; then
     npm install socket.io
 fi
 
+if [[ ! -f /etc/X11/xorg.conf ]]; then 
+    cp $base/xorg.conf /etc/X11/
+fi
