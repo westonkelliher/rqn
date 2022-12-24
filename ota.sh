@@ -4,8 +4,6 @@
 
 base="/home/requin"
 
-cd $base/rqn
-
 branch="main"
 
 if [[ -f "$base/testing" ]]; then
@@ -16,6 +14,7 @@ if [[ -f "$base/development" ]]; then
     branch="development"
 fi
 
-git pull origin $branch
+cd $base/rqn
 git checkout $branch
+git pull origin $branch
 
