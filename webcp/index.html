@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-n<html>
+<html>
   <head>
     <title>RecBox Control Pad</title>
     <style>
@@ -44,7 +44,7 @@ n<html>
   canvas.width *= 4/5;
   canvas.height *= 4/5;
 
-  ws = new WebSocket("ws://192.168.0.100:50079");
+  ws = new WebSocket("ws://192.168.0.245:50079");
 
   // wait for websocket to connect
   ws.onopen = (event) => {
@@ -55,7 +55,9 @@ n<html>
       ctx.fillStyle = 'rgb(245,245,245)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      
+      byte_array = new Uint8Array(1);
+      byte_array[0] = subid;
+      ws.send(byte_array.buffer);
       //socket.emit('msg', JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
       
 
