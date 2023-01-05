@@ -20,6 +20,7 @@
   const url_arg_str = window.location.search;
   const url_params = new URLSearchParams(url_arg_str);
   const subid = url_params.get('subid');
+  const box_ip = window.location.href.split('/')[2].split(':')[0];
   console.log(subid);
   var global_spec;
   
@@ -44,7 +45,7 @@
   canvas.width *= 4/5;
   canvas.height *= 4/5;
 
-  ws = new WebSocket("ws://192.168.0.245:50079");
+  ws = new WebSocket("ws://" + box_ip + ":50079");
 
   // wait for websocket to connect
   ws.onopen = (event) => {
