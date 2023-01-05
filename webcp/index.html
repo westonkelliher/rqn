@@ -9,36 +9,57 @@
     </style>
   </head>
   <body>
-    <canvas></canvas>
-    <script src="./socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-      const canvas = document.querySelector('canvas');
-      const ctx = canvas.getContext('2d');
-      var q = false;
-      q = "eleven";
-      var global_spec;
+    <div id="d1">
+      <canvas id="thecanvas"</canvas> 
+    </div>
+<script>
+  // style="touch-action: none;"></canvas>  
+  var div1 = document.getElementById('d1');
+  const canvas = document.getElementById('thecanvas');
+  const ctx = canvas.getContext('2d');
+  const url_arg_str = window.location.search;
+  const url_params = new URLSearchParams(url_arg_str);
+  const subid = url_params.get('subid');
+  const box_ip = window.location.href.split('/')[2].split(':')[0];
+  console.log(subid);
+  var global_spec;
+  
+  // don't expand all the way if the webpage is a weird shape
+  if (innerWidth > innerHeight*3) {
+      canvas.width = innerHeight*3;
+  } else {
+      canvas.width = innerWidth;
+  }
+  if (innerHeight > innerWidth*2/3) {
+      canvas.height = innerWidth*2/3;
+  } else {
+      canvas.height = innerHeight;
+  }
 
+  console.log(canvas);
 
-      // don't expand all the way if the webpage is a weird shape
-      if (innerWidth > innerHeight*3) {
-	  canvas.width = innerHeight*3;
-      } else {
-	  canvas.width = innerWidth;
-      }
-      if (innerHeight > innerWidth*2/3) {
-	  canvas.height = innerWidth*2/3;
-      } else {
-	  canvas.height = innerHeight;
-      }
-      
-      console.log(canvas);
-      
+  // canvas shrinkage because mobile browser autoscaling
+  div1.style.position = "absolute";
+  div1.style.left = canvas.width/10 + "px";
+  div1.style.top = canvas.height/10 + "px";
+  canvas.width *= 4/5;
+  canvas.height *= 4/5;
+
+  ws = new WebSocket("ws://" + box_ip + ":50079");
+
+  // wait for websocket to connect
+  ws.onopen = (event) => {
+
+      console.log("openned websocket")
+
       ctx.beginPath();
       ctx.fillStyle = 'rgb(245,245,245)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      socket.emit('msg', JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
+      byte_array = new Uint8Array(1);
+      byte_array[0] = subid;
+      ws.send(byte_array.buffer);
+      //socket.emit('msg', JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
       
 
       function num_to_color(num) {
@@ -57,7 +78,10 @@
 	      element_id: id,
 	      datum: datum,
 	  }
-	  socket.emit('msg', JSON.stringify({ControlPacket}));
+	  let msg = JSON.stringify(ControlPacket);
+	  console.log('sending ' + msg);
+	  ws.send(msg);
+	  //socket.emit('msg', JSON.stringify({ControlPacket}));
       }
 
 
@@ -130,34 +154,22 @@
       canvas.addEventListener('mousedown', function (e) {
 	  touched(e);
       });
-      /*canvas.addEventListener('mouseup', function (e) {
-	  // account for touches in buttons
-	  global_spec.buttons.forEach(function (b, i) {
-	      if (b.depressed) {
-		  b.depressed = false;
-		  send_datum(b.id, 'Release');
-	      }
-	  });
-	  
-      });*/
 
-      // Heartbeats
-      setInterval(function() {
-	  socket.emit('msg', "\"Heartbeat\"");	  
-      }, 250);
-
-      
-      socket.on('msg', (msg) => {
+      ws.addEventListener('message', (event) => {
+	  msg = event.data;
 	  console.log('<' + msg + '>');
 	  if (msg == 'None') {
 	      return;
 	  }
-	  var resp = JSON.parse(msg);
-	  if (resp.Spec) {
-	      update_spec(resp.Spec);
+	  if (msg == 'DimensionsRequest') {
+	      ws.send(JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
+	  } else {
+	      var spec = JSON.parse(msg);
+	      console.log('v');
+	      update_spec(spec);
 	  }
       });
-
-    </script>
-  </body>
+  }
+  </script>
+</body>
 </html>
