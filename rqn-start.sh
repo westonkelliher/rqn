@@ -13,7 +13,7 @@ dest="/home/requin/rqn"
 # run recbox system applications (AppSwitcher)
 echo "$dest/loader"
 echo "$(date)" > $log/loader.out
-$dest/loader 1> $log/loader.out 2> $log/loader.out &
+$dest/loader 1> $log/loader.out 2> $log/loader.out
 
 # kill any existing control pad servers
 pid=$(ps aux | grep cp_server | grep -v "grep" | sed 's/^[^[:space:]]\+[[:space:]]\+\([0-9]\+\).*/\1/')
