@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RecBox Control Pad</title>
+    <style>
+      body {
+	  margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="d1">
+      <canvas id="thecanvas"</canvas> 
+    </div>
+<script>
+  // style="touch-action: none;"></canvas>  
+  var div1 = document.getElementById('d1');
+  const canvas = document.getElementById('thecanvas');
+  const ctx = canvas.getContext('2d');
+  const url_arg_str = window.location.search;
+  const url_params = new URLSearchParams(url_arg_str);
+  const subid = url_params.get('subid');
+  const box_ip = window.location.href.split('/')[2].split(':')[0];
+  console.log(subid);
+  var global_spec;
+  
+  // don't expand all the way if the webpage is a weird shape
+  if (innerWidth > innerHeight*3) {
+      canvas.width = innerHeight*3;
+  } else {
+      canvas.width = innerWidth;
+  }
+  if (innerHeight > innerWidth*2/3) {
+      canvas.height = innerWidth*2/3;
+  } else {
+      canvas.height = innerHeight;
+  }
+
+  console.log(canvas);
+
+  // canvas shrinkage because mobile browser autoscaling
+  div1.style.position = "absolute";
+  div1.style.left = canvas.width/10 + "px";
+  div1.style.top = canvas.height/10 + "px";
+  canvas.width *= 4/5;
+  canvas.height *= 4/5;
+
+  ws = new WebSocket("ws://" + box_ip + ":50079");
+
+  // wait for websocket to connect
+  ws.onopen = (event) => {
+
+      console.log("openned websocket")
+
+      ctx.beginPath();
+      ctx.fillStyle = 'rgb(245,245,245)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      byte_array = new Uint8Array(1);
+      byte_array[0] = subid;
+      ws.send(byte_array.buffer);
+      //socket.emit('msg', JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
+      
+
+      function num_to_color(num) {
+	  const r = num % 256;
+	  num = num/256;
+	  const g = num % 256;
+	  num = num/256;
+	  const b = num % 256;
+	  num = num/256;
+	  const a = num % 256;
+	  return "rgba(" + [r,g,b,a].join(',') + ")";
+      }
+
+      function send_datum(id, datum) {
+	  var ControlPacket = {
+	      element_id: id,
+	      datum: datum,
+	  }
+	  let msg = JSON.stringify(ControlPacket);
+	  console.log('sending ' + msg);
+	  ws.send(msg);
+	  //socket.emit('msg', JSON.stringify({ControlPacket}));
+      }
+
+
+      function clear_html_elements() {
+	  var children = document.body.children;
+	  for (var i=0; i < children.length; i++) {
+	      var child = children[i];
+	      if (child.tagName == 'BUTTON') {
+		  document.body.removeChild(child);
+		  i--;
+	      }
+	  }
+      }
+      
+      function update_spec(spec) {
+	  global_spec = spec
+	  console.log(global_spec);
+
+	  // clear canvas graphics
+	  ctx.beginPath();
+	  ctx.fillStyle = 'rgb(250,250,255)';
+	  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	  // remove old html elements
+	  clear_html_elements();
+	  
+	  // Draw panels
+	  global_spec.panels.forEach(function (p, i) {
+	      ctx.beginPath();
+	      ctx.fillStyle = num_to_color(p.color);
+	      ctx.fillRect(p.x, p.y, p.w, p.h);
+	  });
+	  
+	  // Draw buttons
+	  global_spec.buttons.forEach(function (b, i) {
+	      ctx.beginPath();
+	      if (b.depressed) {
+		  ctx.fillStyle = 'rgb(190,190,190)';
+	      } else {
+		  ctx.fillStyle = 'rgb(230,230,230)';
+	      }
+	      ctx.rect(b.x, b.y, b.w, b.h, 10);
+	      ctx.stroke();
+	      ctx.fill();
+	  });
+      }
+
+
+      function getTouchPosition(canvas, event) {
+	  const rect = canvas.getBoundingClientRect();
+	  const x = event.clientX - rect.left;
+	  const y = event.clientY - rect.top;
+	  return {x, y};
+      }
+
+
+      function touched(e) {
+	  // account for touches in buttons
+	  let pos = getTouchPosition(canvas, e);
+	  global_spec.buttons.forEach(function (b, i) {
+	      if (pos.x >= b.x && pos.x <= b.x + b.w &&
+		  pos.y >= b.y && pos.y <= b.y + b.h)
+	      {
+		  b.depressed = true;
+		  send_datum(b.id, 'Press');
+	      }
+	  });
+      }
+      
+      canvas.addEventListener('mousedown', function (e) {
+	  touched(e);
+      });
+
+      ws.addEventListener('message', (event) => {
+	  msg = event.data;
+	  console.log('<' + msg + '>');
+	  if (msg == 'None') {
+	      return;
+	  }
+	  if (msg == 'DimensionsRequest') {
+	      ws.send(JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
+	  } else {
+	      var spec = JSON.parse(msg);
+	      console.log('v');
+	      update_spec(spec);
+	  }
+      });
+  }
+  </script>
+</body>
+</html>
