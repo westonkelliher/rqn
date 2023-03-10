@@ -7,17 +7,28 @@ var x = 0;
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
-    /*console.log(x);
-    if (x == 0) {
-	res.sendFile(__dirname + '/test.html');
-	x = 1;
-    } else {
-	res.sendFile(__dirname + '/index.html');
-	x = 0;
-    }
-    console.log(x);
-    console.log("-");*/
 });
+
+app.get('/client.js', (req, res) => {
+    console.log("Load wasm module")
+	res.sendFile(__dirname + '/client.js');
+});
+
+app.get('/client.data', (req, res) => {
+    console.log("Load wasm module")
+	res.sendFile(__dirname + '/client.data');
+});
+
+app.get('/websocket.js', (req, res) => {
+    console.log("Load wasm module")
+	res.sendFile(__dirname + '/wasm.module.js');
+});
+
+app.get('/wasm.module.js', (req, res) => {
+    console.log("Load wasm module")
+	res.sendFile(__dirname + '/wasm.module.js');
+});
+
 
 
 server.listen(3000, () => {
