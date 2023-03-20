@@ -4,6 +4,7 @@ set -e
 
 # move from westonkelliher/rqn to RecBox-Games/rqn
 cd /home/requin
+echo "production" > branch
 git clone https://github.com/RecBox-Games/rqn.git newrqndir
 mv rqn oldrqndir
 mv newrqndir rqn
