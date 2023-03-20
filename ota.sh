@@ -1,16 +1,10 @@
 #!/bin/bash
 
-base="/home/requin"
+set -e
 
-branch="main"
-
-if [[ -f "$base/branch" ]]; then
-    branch=$(cat $base/branch)
-fi
-
-cd $base/rqn
-git fetch
-git checkout $branch
-git pull origin $branch
-
-cp $base/rqn/.xinitrc $base/
+# move from westonkelliher/rqn to RecBox-Games/rqn
+cd /home/requin
+git clone https://github.com/RecBox-Games/rqn.git newrqndir
+mv rqn oldrqndir
+mv newrqndir rqn
+reboot
