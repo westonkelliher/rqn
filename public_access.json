@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "recbox-poc-vs1",
+  "private_key_id": "e4706d49a161b1e5eca57ff4e72ce1fdfb327d11",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDWivo1QJbyr2Jo\nQu/ekcCqERSu3uMbyO9GK/cy48RiVi29kiDT0Icn3VsYjwZFvcXkDTBo7eyEwhGp\n21qCl9naHBL3JNdfK4DeummLgOLaTrRzqpGdsgL0bt1pHqCc9Xs3+yfOHOLF/9SR\nfcGEkMtwKf1YqIGOa7TjATkB7QTDfNuPpkO/EaW2eZ4FhnYflQQsT9bkCfq2Eqxt\npLhAsrnLWKdnM4omfKyjZyzxvDnftYWo/0J9nzGyg26ES6FgwhuqIigdEDta5Irr\nmfgfhNNR990NaTe0MzBpApdQW9skDjuTgEjkFL/toA5oGXsvbAMtEP8+i5cyB8mU\nDg9LGHhtAgMBAAECggEACh3lM2J0VV7uP23700o0N52bYa08MGQG3g9v4x2lqRPY\n3FOdUKx72X/Krk6Wqrs9yN85i5K/0Hk5gM6WZtbnFi3n7XEps5P6Y7mOnvfY7eQN\nBldIvpLvKLxoAtXHsevkssl/h9MJrorxAltXwMfDKbeqxrKx4uSZU9fYhFeIHflM\ntwhpGOrMPBc9707z9vWjldLOe+Q1ayzs76COccZN+EBzmON+YjGpb9k4U5h5ePNb\n6Dbfxc/Bzc4Ey5Ki5rbZK1k2tGRp+CiPxRzIHEtqcXpjAXt4/gezIEaTxAcCevH2\n4BFSbse8KI1ufahBThr+EKwcoIGvH95hg84hrjwiAQKBgQD+cKf6fUKK2Qk33X4t\nc+aY7JlMDyXuIfFRKj7MHH6k/q2htglwFLNRPUUfSAwvv12n0loW3q6wxr9Xb9aw\nq+86tLgC2tRa8aG5NlMTifTufvBbrhQlY2RTE7xR4eHebLsKWwTVvxyyQTXOelWZ\nydw16N0P4k8CZlcSu05BFMLGzQKBgQDX27Pavd/ohppQAoQzxQ/0vKHXN0byleyY\ntz8dlZheWI/MQfkOZhPw6TF6zsxycwuV1q4NNmefRpH5QlzP23JVWFtUcTnTTwHh\neWPAYMjKo9fARfHLFXB3i3l+igN86y1mdzkr9lWU5/4LUd69SHHVcgOESI/Yud8e\n+WIcDIA4IQKBgEYJzLNu93ow9BCkr67jUH6X4jrFkLNUNJEbB943mcThNfplmYN4\nr0OVkgliU7hw/N7NUG8rLPsMOm9fIcHQEjIevOhMRFgkW1gYVBX0y6860f7qlDEW\ngu87Z4NComIPnAzlsRcFXGjU+nKzygxjPHK6ft94dDc85IsLdCcGB/ehAoGAKSa7\nXQJBw4SVupcgOPZimlezyuHA5tJqLpsQr0UrrSDZGSmin3oaZx0tz6nJFDCWjtRE\njkRG8Ph1L73VD9NYMqkLkEedrIktZJzNxYkt/mPJ59/tvrexnzi5ysPo8lGrcBNe\nlOD7Y83ugp3zBsbe3MBFp1xl//0/ahpE9+/yKcECgYEAhTrld+2OXgLzbb22fNqL\nbBJf2wrZ2Fq/wAbL2XMttUfw5EMTZCiACc88SNYmis7eIeYaGsSHsInc3TlaHqlR\nAexFKYa9EhMb1bprBQ0SXKn3lcxDI4X1kVu+F9X6rwH5pFFsQe5CYqfKRQjTlPc2\nNleeySdm/IT/d3mGdTHbGdc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "gamenitestoreaccount1@recbox-poc-vs1.iam.gserviceaccount.com",
+  "client_id": "110032885465146000970",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gamenitestoreaccount1%40recbox-poc-vs1.iam.gserviceaccount.com"
+}
