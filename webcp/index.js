@@ -1,7 +1,10 @@
 const express = require('express');
+const path = require('path');
+
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
+
+
+app.use(express.static('/home/requin/controller'));
 
 // endpoints
 app.get('/:endpointName', (req, res) => {
@@ -15,6 +18,6 @@ app.get('/', (req, res) => {
 });
 
 // server
-server.listen(3000, () => {
+app.listen(3000, () => {
     console.log('listening on *:3000');
 });

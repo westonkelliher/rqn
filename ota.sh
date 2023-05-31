@@ -2,7 +2,11 @@
 
 base="/home/requin"
 
-branch="main"
+if [[ -f "$base/no_ota" ]]; then
+    exit
+fi
+
+branch="production"
 
 if [[ -f "$base/branch" ]]; then
     branch=$(cat $base/branch)
@@ -13,4 +17,4 @@ git fetch
 git checkout $branch
 git pull origin $branch
 
-cp $base/rqn/.xinitrc $base/
+sudo cp -p $base/rqn/.xinitrc $base/
